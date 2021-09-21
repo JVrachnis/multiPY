@@ -1,0 +1,30 @@
+{% load random_numbers %}
+{% load index %}
+<style>
+
+tr td{
+  padding: 7 !important;
+  margin: 7 !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
+</style>
+<table class="table table-dark  table-striped ">
+    {% random_int 1 10 as r %}
+
+    {% with ''|center:10 as range %}
+    {% for _ in range %}
+  <tr>
+    <td colspan="1">{{ base_number }}</td>
+    <td colspan="1" >×</td>
+    <td colspan="1">{{ forloop.counter }}</td>
+    <td colspan="1">=</td>
+    <td style="padding-left: 0 !important;margin-left: 0 !important;padding-right: 0 !important;margin-right: 0 !important" colspan="1">
+      <input style="width:99%;" maxlength="3" size="3" type="number" pattern="[0-9](1-3)" id="quantity{{ base_number }}_{{ forloop.counter }}" name="quantity{{ base_number }}_{{ forloop.counter }}" value="0" min="0">
+    </td>
+  </tr>
+  {% endfor %}
+  {% endwith %}
+</table>

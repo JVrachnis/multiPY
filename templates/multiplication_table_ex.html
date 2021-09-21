@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Multiplication tables{% endblock %}
+{% block content %}
+
+<div class="container d-flex justify-content-center">
+
+  <div class="card " style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Multiplication table of {{base_number}}</h5>
+      {%if disabled%}
+      <P class="{% if correct %} bg-success {% else %} bg-danger {% endif %}">{{score}}/10</p>
+      {%if correct%}
+      <h3>{{pass_message}}</h3>
+      <p>You Pass the exam ,the next one is unlocked </p>
+      {%if base_number >= 10 %}
+      <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiplication_tables_ex' %}'" method="GET">Go to final exam</button>
+      {%else%}
+      <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiplication_table_ex' base_number|add:1%}'" method="GET">Next table</button>
+      {%endif%}
+      {%else%}
+      <h3>{{pass_message}}</h3>
+      <p>You didnt Pass the exam ,get some more study, do some more exercises and try again</p>
+      <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiplication_table' base_number%}'" method="GET">Go to study</button>
+      <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiple_choice' base_number%}'" method="GET">Go to do some exercises</button>
+      {%endif%}
+
+      <table class="table table-dark  table-striped ">
+        {% for answer in answers %}
+        <tr class="{% if answer.correct %} bg-success {% else %} bg-danger {% endif %}">
+          <td>{{ base_number }}</td>
+          <td>×</td>
+          <td>{{ answer.multiplier }}</td>
+          <td>=</td>
+          <td>{{answer.answer}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {%else%}
+      <form class="form-signin" method="post">
+        {% csrf_token %}
+        {% include "multiplication_table_ex_template.html" with base_number=base_number %}
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+      </form>
+      {%endif%}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

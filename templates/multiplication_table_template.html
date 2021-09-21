@@ -1,0 +1,14 @@
+<table class="table table-dark table-bordered table-striped ">
+    {% with ''|center:10 as range %}
+    {% for _ in range %}
+
+  <tr>
+    <td>{{ base_number }}</td>
+    <td>×</td>
+    <td>{{ forloop.counter }}</td>
+    <td>=</td>
+    <td>{% widthratio base_number 1 forloop.counter %}</td>
+  </tr>
+  {% endfor %}
+  {% endwith %}
+</table>

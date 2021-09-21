@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Study matirial{% endblock %}{% block content %}
+          <object class="w-100 vh-100" data="{% static 'multyPY/prop.pdf' %}" type="application/pdf" internalinstanceid="9" title="">
+              <p>Your browser isn't supporting embedded pdf files. You can download the file
+                  <a href="{% static 'multyPY/prop.pdf' %}">here</a>.</p>
+          </object>
+{% endblock %}

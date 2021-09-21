@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Multiplication tables{% endblock %}{% block content %}
+<div class='container-fluid d-flex justify-content-center'>
+  <div class="card " >
+    <div class="card-body">
+    <h5 class="card-title">Final exam</h5>
+    {%if disabled%}
+    <P class="{% if correct %} bg-success {% else %} bg-danger {% endif %}">{{score}}/10</p>
+      {%if correct%}
+      <h3>{{pass_message}}</h3>
+        <p>Congratulations You've Passed the final exam </p>
+      {%else%}
+        <h3>You didnt Pass</h3>
+        <p>You didnt Pass the exam ,get some more study, do some more exercises and try again</p>
+        <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiplication_tables' %}'" method="GET">Go to study</button>
+        <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiple_choice' %}'" method="GET">Go to do some exercises</button>
+      {%endif%}
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-5 justify-content-start">
+      {% for exam in exams %}
+      <div class="col flex-fill ">
+        <div class="card text-center">
+          <div class="card-body ">
+            <h2 class="card-title">Table of {{exam.base_number}}</h2>
+          </div>
+          <div class="card-body ">
+            <table class="table table-dark  table-striped ">
+              {% for answer in exam.answers %}
+              <tr class="{% if answer.correct %} bg-success {% else %} bg-danger {% endif %}">
+                <td>{{ exam.base_number }}</td>
+                <td>×</td>
+                <td>{{ answer.multiplier }}</td>
+                <td>=</td>
+                <td>{{answer.answer}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      </div>
+    {%else%}
+        <form class="form-signin" method="post">
+          {% csrf_token %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-5 justify-content-start">
+          {% with ''|center:10 as range %}
+          {% for _ in range %}
+
+          <div class="col flex-fill">
+          {% include "multiplication_table_ex_template.html" with base_number=forloop.counter random_pos=random_pos %}
+          </div>
+        {% endfor %}
+        {% endwith %}
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+      </form>
+      </div>
+      {%endif%}
+    </div>
+  </div>
+</div>
+{% endblock %}

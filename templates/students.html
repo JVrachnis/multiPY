@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Multiplication tables{% endblock %}{% block content %}
+<table class="table">
+  <tbody>
+{%for student in students %}
+    <tr>
+      <td>
+        <h3>{{student}}</h3>
+      </td>
+      <td>
+        <a class="btn btn-primary"  href="{% url 'profile' student %}">view profile</a>
+      </td>
+      <td>
+        <a class="btn btn-primary" href="{% url 'answers' student %}">view answers from exercises</a>
+      </td>
+      <td>
+        <a class="btn btn-primary"  href="{% url 'exam_answers' student %}">view answers from exams</a>
+      </td>
+      <td>
+        <a class="btn btn-primary"  href="{% url 'final_exam_answers' student %}">view answers from final exams</a>
+      </td>
+      <td>
+        <a class="btn btn-primary" href="{% url 'edit_permitions' student %}">edit permissons</a>
+      </td>
+
+    </tr>
+
+{% endfor%}
+</tbody>
+</table>
+
+{% endblock %}

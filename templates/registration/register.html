@@ -1,0 +1,52 @@
+
+{% extends 'base.html'%}
+{% load bootstrap4 %}
+
+{%block content%}
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<body>
+    <form method="POST" action="{% url 'signup' %}" class = "sign-up-form">
+        {% csrf_token %}
+        <div class="form-group"><label for="id_username">Username</label><input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus="" class="form-control" placeholder="Username" title="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only." required="" id="id_username">
+          <small class="form-text text-muted">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
+          {% for error in form.username.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </div>
+        <div class="form-group"><label for="id_password1">Password</label><input type="password" name="password1" autocomplete="new-password" class="form-control" placeholder="Password" title="Your password can’t be too similar to your other personal information.Your password must contain at least 8 characters.Your password can’t be a commonly used password.Your password can’t be entirely numeric." required="" id="id_password1">
+          <small class="form-text text-muted"><ul><li>Your password can’t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul></small>
+          {% for error in form.password1.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </div>
+        <div class="form-group"><label for="id_password2">Password confirmation</label><input type="password" name="password2" autocomplete="new-password" class="form-control" placeholder="Password confirmation" title="Enter the same password as before, for verification." required="" id="id_password2">
+          <small class="form-text text-muted">Enter the same password as before, for verification.</small>
+          {% for error in form.password2.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </div>
+        <div class="form-group ">
+          <label for="role">Role</label>
+          <select id="role" name="role" class="form-control">
+            <option selected>student</option>
+            <option>teacher</option>
+          </select>
+
+        </div>
+        <div class="form-group"><label for="key">keycode</label><input oninput="let p=this.selectionStart;this.value=this.value.toUpperCase().replace(/\s/g, '');this.setSelectionRange(p, p);" type="text" name="key" maxlength="16" autocapitalize="none" autocomplete="key" autofocus="" class="form-control" placeholder="XXXXXXXXXX" title="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only." required="" id="key">
+          <small class="form-text text-muted">Enter the keycode given by your school or teacher</small>
+          <small class="form-text text-muted">A student's keycode should be 10 characters long</small>
+          <small class="form-text text-muted">A teacher's keycode should be 16 characters long</small>
+          {% for error in key.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </div>
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</body>
+
+</html>
+{%endblock%}

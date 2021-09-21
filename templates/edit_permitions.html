@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Multiplication tables{% endblock %}{% block content %}
+<table class="table">
+  <tbody>
+    <form method="POST">{% csrf_token %}
+{%for permission in userpermissions %}
+    <tr>
+      <td>
+        <td><a>{{permission.name}}</a></td>
+        <td><button class="btn btn-primary" type="submit" id="permissionID" name="permissionID" value="{{permission.id}}">remove</button></td>
+      </td>
+    </tr>
+{% endfor%}
+</form>
+    <tr>
+      <td>
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownExerc" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Add permission
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownExerc">
+          <ul>
+            <form method="POST">{% csrf_token %}
+            {%for permission in allpermissions %}
+            <li>
+                <button class="btn btn-primary" type="submit" id="permissionID" name="permissionID" value="{{permission.id}}">{{permission.name}}</button>
+            </li>
+            {% endfor%}
+            </form>
+          </ul>
+        </div>
+      </td>
+    </tr>
+</tbody>
+</table>
+{% endblock %}

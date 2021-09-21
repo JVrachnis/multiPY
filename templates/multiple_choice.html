@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Multiplication tables{% endblock %}{% block content %}
+
+<div class="container d-flex justify-content-center">
+
+  <div class="card " style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">What is {{base_number}}×{{multiplier}}</h5>
+    <form method="POST">{% csrf_token %}
+      <input type="hidden" id="base_number" name="base_number" value="{{base_number}}">
+      <input type="hidden" id="multiplier" name="multiplier" value="{{multiplier}}">
+      <input type="hidden" id="options" name="options" value="{{options}}">
+      <ul class="list-group">
+        {%for option in options %}
+        <li class="list-group-item">
+          <button type="submit" class="btn {%if option != checked_answer%} btn-primary {%elif correct%} btn-success {%else%}btn-danger{%endif%} btn-lg btn-block {%if disabled%}disabled{%endif%}" id="answer" name="answer" value="{{option}}" {%if disabled%}disabled{%endif%} aria-disabled="{{disabled}}">{{option}}</button>
+        </li>
+        {%endfor%}
+      </ul>
+      </form>
+      {%if disabled%}
+        {%if correct%}
+          {%if random%}
+            <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiple_choice' %}'" method="GET">An other one</button>
+          {%else%}
+            <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiple_choice' base_number%}'" method="GET">An other one</button>
+          {%endif%}
+        {%else%}
+          <button class="btn btn-primary btn-lg btn-block" onclick="location.href='{% url 'multiple_choice' base_number multiplier%}'" method="GET">Try again</button>
+        {%endif%}
+      {%endif%}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

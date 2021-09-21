@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Multiplication tables{% endblock %}{% block content %}
+<div class='container-fluid'>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-xl-5 justify-content-start">
+  {% with ''|center:10 as range %}
+  {% for _ in range %}
+
+  <div class="col flex-fill">
+  {% include "multiplication_table_template.html" with base_number=forloop.counter %}
+  </div>
+{% endfor %}
+{% endwith %}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if exams %}
+
+<div class="card">
+  <div class="card-body">
+    {% if view %}
+    <h2 class="card-title">answers by {{ username }}</h2>
+
+    {% else %}
+    <h2 class="card-title">answers by {{ user }}</h2>
+    {% endif %}
+    <div class='container-fluid'>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-5 justify-content-start">
+        {% for exam in exams %}
+        <div class="col flex-fill ">
+          <div class="card text-center">
+            <div class="card-body ">
+              <h2 class="card-title">Table of {{exam.base_number}}</h2>
+            </div>
+            <div class="card-body ">
+              <table class="table table-dark  table-striped ">
+              {% for answer in exam.answers %}
+                <tr class="{% if answer.correct %} bg-success {% else %} bg-danger {% endif %}">
+                  <td>{{ exam.base_number }}</td>
+                  <td>×</td>
+                  <td>{{ answer.multiplier }}</td>
+                  <td>=</td>
+                  <td>{{answer.answer}}</td>
+                </tr>
+              {% endfor %}
+              </table>
+            </div>
+
+
+
+
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <p>No answers are available.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

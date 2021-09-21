@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if answers %}
+
+<div class="card">
+  <div class="card-body">
+    {% if view %}
+    <h2 class="card-title">answers by {{ username }}</h2>
+
+    {% else %}
+    <h2 class="card-title">answers by {{ user }}</h2>
+    {% endif %}
+    <div class='container-fluid'>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 justify-content-start">
+        {% for answer in answers %}
+        <div class="col flex-fill ">
+          <div class="card text-center">
+
+            <div class="card-body ">
+              <h2 class="card-title">Table of {{answer.question.base_number}}</h2>
+              <h3 class="{% if answer.is_correct %} bg-success {% else %} bg-danger {% endif %}">{{answer.question.base_number}}×{{answer.question.multiplier}}={{ answer.answer }}</h3>
+            </div>
+            <div class="card-body ">
+              <h4 class="card-title">from the options of:</h4>
+              <ul class="list-group list-group-horizontal-lg d-flex justify-content-center">
+                {% for option in answer.question.get_option_list%}
+                <li class="list-group-item bg-info">{{option}} </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+
+
+
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <p>No answers are available.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

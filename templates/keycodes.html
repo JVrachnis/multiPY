@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Multiplication tables{% endblock %}{% block content %}
+<table class="table">
+  <tbody>
+    <form method="POST">{% csrf_token %}
+      {%for key in keycodes %}
+
+      <tr>
+        <td>
+          <a>{{key.key}}</a>
+
+        </td>
+        <td>
+        <button class="btn btn-primary" type="submit" id="keyID" name="keyID" value="{{key.id}}">remove</button>
+        </td>
+      </tr>
+
+      {% endfor%}
+      <tr>
+        <td>
+        <button class="btn btn-primary" type="submit">Generate keycode</button>
+        </td>
+      </tr>
+    </form>
+  </tbody>
+</table>
+
+{% endblock %}

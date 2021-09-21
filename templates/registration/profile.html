@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="jumbotron">
+  {% if user.is_authenticated %}
+
+    {%if view %}
+    <h3>This is {{ username }}'s profile</h3>
+    {% else %}
+    <h1 class="display-4">Hello, {{ user }}</h1>
+    <p class="lead">This is your profile,here you can see your progress</p>
+    {% endif %}
+    <hr class="my-4">
+    {%if view %}
+    <h3>This is his progress with the exercises</h3>
+    {% else %}
+    <h3>This is your progress with the exercises</h3>
+    {% endif %}
+    <div id="chartContainerExercises" style="height: 300px; width: 100%;">
+    </div>
+    <hr class="my-4">
+    {%if view %}
+    <h3>This is his top scores from the exams </h3>
+    {% else %}
+    <h3>This is your top scores from the exams </h3>
+    {% endif %}
+    <div id="chartContainerTopExams" style="height: 300px; width: 100%;">
+    </div>
+    {%if view %}
+    <h3>This is his total progress with the exams</h3>
+    {% else %}
+    <h3>This is your total progress with the exams</h3>
+    {% endif %}
+    <div id="chartContainerTotalExams" style="height: 300px; width: 100%;">
+    </div>
+  {% else %}
+    <li class="nav-item">
+      <a class="nav-link disabled" href="{% url 'profile'%}" tabindex="-1" aria-disabled="true">profile</a>
+    </li>
+  {% endif %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type="text/javascript">
+window.onload = function () {
+  $.ajax({
+    url: "{% url 'json_progress_exercises' %}",
+    {%if view %}
+    data:{user:'{{username}}'},
+    {% endif %}
+    success: function (plot_data) {
+      var data = [];
+      $.each(plot_data,function(index,plot) {
+          data.push({
+
+            x: plot.x,
+            y: plot.y,
+            name:plot.name,
+            stackgroup: 'one',
+            type: 'scatter',
+            mode: 'scatter',
+            marker: {
+              color: plot.color,
+              size: 8
+            },
+            line: {
+              color: plot.color,
+              width: 1
+            }
+          }
+          )
+      });
+    var layout = {
+      title:'Progress on multiple choice'
+    };
+
+    Plotly.newPlot('chartContainerExercises', data, layout, {responsive: true});
+
+    }
+  });
+  $.ajax({
+    url: "{% url 'json_progress_top_exam' %}",
+    {%if view %}
+    data:{user:'{{username}}'},
+    {% endif %}
+    success: function (plot_data) {
+      var data = [];
+      $.each(plot_data,function(index,plot) {
+          data.push({
+
+            x: plot.x,
+            y: plot.y,
+            name:plot.name,
+            type: 'bar',
+            marker: {
+              color: plot.color,
+              size: 8
+            },
+            line: {
+              color: plot.color,
+              width: 1
+            }
+          }
+          )
+      });
+    var layout = {
+      title:'Top score exam for each submited table',
+      barmode: 'stack'
+    };
+
+    Plotly.newPlot('chartContainerTopExams', data, layout, {responsive: true});
+
+    }
+  });
+  $.ajax({
+    url: "{% url 'json_progress_total_exam' %}",
+    {%if view %}
+    data:{user:'{{username}}'},
+    {% endif %}
+    success: function (plot_data) {
+      var data = [];
+      $.each(plot_data,function(index,plot) {
+          data.push({
+
+            x: plot.x,
+            y: plot.y,
+            name:plot.name,
+            stackgroup: 'one',
+            type: 'scatter',
+            mode: 'scatter',
+            marker: {
+              color: plot.color,
+              size: 8
+            },
+            line: {
+              color: plot.color,
+              width: 1
+            }
+          }
+          )
+      });
+    var layout = {
+      title:'Progress on exams (excluding final exam)'
+    };
+
+    Plotly.newPlot('chartContainerTotalExams', data, layout, {responsive: true});
+
+    }
+  });
+}
+</script>
+{% endblock %}
