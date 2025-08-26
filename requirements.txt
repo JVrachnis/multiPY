@@ -1,0 +1,24 @@
+# Django framework (keeping 3.0.6 for university project compatibility)
+Django==3.0.6
+
+# Bootstrap integration for Django
+django-bootstrap4
+
+# Environment variable management
+python-decouple
+
+# Development and testing tools
+django-extensions
+
+# Production-ready improvements (optional)
+# Pillow>=8.0.0  # for image handling
+# whitenoise>=5.0.0  # for static file serving
+# gunicorn>=20.0.0  # for production deployment
+
+# Standard library modules (these come with Python, but listed for reference)
+# The following are built-in Python modules used in your project:
+# - os
+# - datetime
+# - json
+# - random
+# - string
